@@ -188,13 +188,13 @@ async def async_setup_entry(
 
 
 class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
-    """The Google Cloud STT API provider."""
+    """The Gemini Cloud STT API provider."""
 
-    _attr_name = "Google Cloud"
-    _attr_unique_id = "google-cloud-speech-to-text"
+    _attr_name = "Gemini Cloud"
+    _attr_unique_id = "gemini-cloud-speech-to-text"
 
     def __init__(self, hass, api_key, model) -> None:
-        """Init Google Cloud STT service."""
+        """Init Gemini Cloud STT service."""
         self.hass = hass
 
         self._model = model
@@ -259,6 +259,7 @@ class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
             audio_data += chunk
 
         wav_data = await self.convert_raw_to_wav(audio_data)
+ 
 
         def job():
             return self._client.models.generate_content(
@@ -275,8 +276,8 @@ class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
         async with asyncio.timeout(10):
             assert self.hass
             response = await self.hass.async_add_executor_job(job)
-
             if response.text:
+                _LOGGER.info(response.text)
                 return SpeechResult(
                     response.text,
                     SpeechResultState.SUCCESS,

@@ -78,8 +78,7 @@ class GeminiCloudConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> OptionsFlow:
         """Create the options flow."""
         return GeminiCloudOptionsFlowHandler(config_entry)
-
- 
+    
 
 class GeminiCloudOptionsFlowHandler(OptionsFlow):
     """Handle a options flow for Google Cloud STT integration."""
