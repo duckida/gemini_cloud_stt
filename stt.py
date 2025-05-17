@@ -20,12 +20,11 @@ from homeassistant.components.stt import (
     SpeechResult,
     SpeechResultState,
 )
-from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
-from homeassistant.const import CONF_FILE_PATH, CONF_MODEL, CONF_API_KEY
-from homeassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, HomeAssistant
-from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_MODEL, CONF_API_KEY
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.issue_registry import IssueSeverity, async_create_issue
+ 
 
 from .const import  DEFAULT_MODEL, DOMAIN, SAMPLE_CHANNELS, SAMPLE_RATE, SAMPLE_WIDTH
 import logging
