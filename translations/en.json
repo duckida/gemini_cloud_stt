@@ -1,0 +1,32 @@
+{
+    "title": "Google Cloud STT (Gemini)",
+    "config": {
+      "step": {
+        "user": {
+          "title": "Connect to Gemini Cloud STT",
+          "description": "Enter your Gemini API key to set up the integration.",
+          "data": {
+            "api_key": "API Key"
+          }
+        }
+      },
+      "error": {
+        "unknown": "Failed to connect. Please check your API key and try again."
+      },
+      "abort": {
+        "already_configured": "This Gemini STT integration is already configured."
+      }
+    },
+    "options": {
+      "step": {
+        "init": {
+          "title": "Gemini Cloud STT Options",
+          "description": "Select your preferred speech-to-text model.",
+          "data": {
+            "model": "Model"
+          }
+        }
+      }
+    }
+  }
+  
