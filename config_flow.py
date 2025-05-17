@@ -1,4 +1,4 @@
-"""Config flow for Google Cloud STT integration."""
+"""Config flow for Gemini Cloud STT integration."""
 
 from __future__ import annotations
  
@@ -38,7 +38,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
         client = genai.Client(api_key=data[CONF_API_KEY])
     await hass.async_add_executor_job(setup_gemini_client)
 
-class GoogleCloudConfigFlow(ConfigFlow, domain=DOMAIN):
+class GeminiCloudConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Gemini Cloud STT integration."""
 
     VERSION = 1
@@ -92,4 +92,7 @@ class GeminiCloudOptionsFlowHandler(OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title="Gemini Cloud STT", data=user_input)
+    
         return self.async_show_form(step_id="init", data_schema=OPTIONS_SCHEMA)

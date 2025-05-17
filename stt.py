@@ -242,8 +242,8 @@ class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
         return buffer.getvalue()
 
 
-    def setup_genai_client(self, api_key):
-        self.genai_client = genai.Client(api_key=api_key)
+    def setup_genai_client(self):
+        self._client = genai.Client(api_key=self._api_key)
 
     async def async_process_audio_stream(
         self, metadata: SpeechMetadata, stream: AsyncIterable[bytes]
@@ -259,19 +259,6 @@ class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
             audio_data += chunk
 
         wav_data = await self.convert_raw_to_wav(audio_data)
-
-        # audio = speech.RecognitionAudio(content=audio_data)
-        # encoding = (
-        #     speech.RecognitionConfig.AudioEncoding.OGG_OPUS
-        #     if metadata.codec == AudioCodecs.OPUS
-        #     else speech.RecognitionConfig.AudioEncoding.LINEAR16
-        # )
-        # config = speech.RecognitionConfig(
-        #     language_code=metadata.language,
-        #     encoding=encoding,
-        #     sample_rate_hertz=metadata.sample_rate,
-        #     model=self._model,
-        # )
 
         def job():
             return self._client.models.generate_content(
