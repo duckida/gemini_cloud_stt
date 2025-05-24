@@ -11,11 +11,12 @@ from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResu
 from homeassistant.const import CONF_MODEL, CONF_API_KEY
 from homeassistant.core import callback, HomeAssistant
 
-from google import genai
+import openai
 from .const import (
     DEFAULT_MODEL,
     DOMAIN,
     SUPPORTED_MODELS,
+    GEMINI_BASE_URL,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -33,10 +34,16 @@ OPTIONS_SCHEMA = vol.Schema(
 )
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
-    """Validate the user input for gemini client."""
-    def setup_gemini_client():
-        client = genai.Client(api_key=data[CONF_API_KEY])
-    await hass.async_add_executor_job(setup_gemini_client)
+    """Validate the user input allows us to connect.
+    Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
+    """
+    client = openai.AsyncOpenAI(api_key=data[CONF_API_KEY], base_url=GEMINI_BASE_URL)
+    try:
+        await client.models.list()
+    except Exception as err:
+        _LOGGER.exception("Failed to validate API key with Gemini backend.")
+        raise ValueError("Invalid API key or Gemini API error") from err
+
 
 class GeminiCloudConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Gemini Cloud STT integration."""

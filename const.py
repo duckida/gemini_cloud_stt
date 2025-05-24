@@ -3,6 +3,7 @@
 
 DOMAIN = "gemini_cloud_stt"
 DEFAULT_MODEL = "gemini-2.0-flash"
+GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
 SUPPORTED_MODELS = [
     "gemini-1.5-flash",
     "gemini-2.0-flash",
