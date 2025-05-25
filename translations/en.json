@@ -21,12 +21,13 @@
       "step": {
         "init": {
           "title": "Gemini Cloud STT Options",
-          "description": "Select your preferred speech-to-text model.",
+          "description": "Select your preferred speech-to-text model. You can also specify the output language (text).",
           "data": {
-            "model": "Model"
+            "model": "Model",
+            "language": "Language",
+            "value_template": "Prompt"
           }
         }
       }
     }
   }
-  
