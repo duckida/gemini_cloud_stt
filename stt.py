@@ -21,7 +21,7 @@ from homeassistant.components.stt import (
     SpeechResultState,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_MODEL, CONF_API_KEY, CONF_VALUE_TEMPLATE
+from homeassistant.const import CONF_MODEL, CONF_API_KEY, CONF_LANGUAGE, CONF_VALUE_TEMPLATE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -47,6 +47,7 @@ async def async_setup_entry(
                 hass,
                 config_entry.data[CONF_API_KEY],
                 config_entry.options.get(CONF_MODEL, DEFAULT_MODEL),
+                config_entry.options.get(CONF_LANGUAGE, "auto"),
                 config_entry.options.get(CONF_VALUE_TEMPLATE, CONF_PROMPT)
             ),
         ]
@@ -59,12 +60,13 @@ class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
     _attr_name = "Gemini Cloud"
     _attr_unique_id = "gemini-cloud-speech-to-text"
 
-    def __init__(self, hass, api_key, model, prompt) -> None:
+    def __init__(self, hass, api_key, model, language, prompt) -> None:
         """Init Gemini Cloud STT service."""
         self.hass = hass
 
         self._model = model
         self._api_key = api_key
+        self._language = language
         self._prompt = prompt
         self._client = None
 
@@ -129,10 +131,11 @@ class GeminiCloudSTTProvider(stt.SpeechToTextEntity):
 
 
         def job():
+            _LOGGER.info("PROMPT: " + self._prompt if self._language == "auto" else f"{CONF_PROMPT} to {self._language}")
             return self._client.models.generate_content(
                 model=self._model,
                 contents=[
-                    self._prompt,
+                    self._prompt if self._language == "auto" else f"{CONF_PROMPT} to {self._language}",
                     types.Part.from_bytes(
                         data=wav_data,
                         mime_type='audio/wav',

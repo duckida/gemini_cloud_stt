@@ -113,7 +113,7 @@ class GeminiCloudOptionsFlowHandler(OptionsFlow):
             vol.Optional(
                 CONF_VALUE_TEMPLATE,
                 description={"suggested_value": CONF_PROMPT},
-                default=current_prompt if current_language == "auto" else f"{CONF_PROMPT} to {current_language}"
+                default=current_prompt
             ): str,
         })
 
