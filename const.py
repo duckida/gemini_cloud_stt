@@ -13,7 +13,7 @@ SUPPORTED_MODELS = [
     "gemini-2.5-pro-preview-05-06",
     "gemini-2.0-flash-live-001"
 ]
-CONF_PROMPT = "Transcribe this audio clip"
+CONF_PROMPT = "You are an AI transcription agent for a smart voice assistant. You analyse the given audio, and output only the text in the audio in plain text."
 SAMPLE_RATE = 16000
 SAMPLE_WIDTH = 2
 SAMPLE_CHANNELS = 1
